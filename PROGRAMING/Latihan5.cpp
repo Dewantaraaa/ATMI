@@ -14,12 +14,12 @@ struct Mahasiswa {
 };
 
 
-void sortMahasiswa(vector<Mahasiswa>& mahasiswa) 
+void sortMahasiswa(vector<Mahasiswa>& mahasiswa)
 {
 	sort(mahasiswa.begin(), mahasiswa.end(), [](const Mahasiswa& a, const Mahasiswa& b) {
 		return a.nim < b.nim;
-	});
-	
+		});
+
 	cout << "---------------------------------------------------\n";
 	cout << "| NIM         | Nama Mahasiswa   | Program Studi  |\n";
 	cout << "---------------------------------------------------\n";
@@ -32,7 +32,7 @@ void sortMahasiswa(vector<Mahasiswa>& mahasiswa)
 }
 
 
-void addMahasiswa(vector<Mahasiswa>& mahasiswa) 
+void addMahasiswa(vector<Mahasiswa>& mahasiswa)
 {
 	string nama, nim;
 	cout << "Masukkan nama mahasiswa: ";
@@ -40,33 +40,39 @@ void addMahasiswa(vector<Mahasiswa>& mahasiswa)
 	getline(cin, nama);
 	cout << "Masukkan NIM mahasiswa: ";
 	getline(cin, nim);
-	
+
 	string prodi;
 	if (nim.length() >= 5) {
-		char prodiCode = nim[4]; 
+		char prodiCode = nim[4];
 		if (prodiCode == '1') {
-			prodi = "TMI"; 
-		} else if (prodiCode == '2') {
-			prodi = "TMK"; 
-		} else if (prodiCode == '3') {
+			prodi = "TMI";
+		}
+		else if (prodiCode == '2') {
+			prodi = "TMK";
+		}
+		else if (prodiCode == '3') {
 			prodi = "TPM";
-		} else if (prodiCode == '4') {
+		}
+		else if (prodiCode == '4') {
 			prodi = "RTM";
-		} else if (prodiCode == '5') {
+		}
+		else if (prodiCode == '5') {
 			prodi = "PM";
-		} else if (prodiCode == '6') {
+		}
+		else if (prodiCode == '6') {
 			prodi = "TRMK";
 		}
 		else {
-			prodi = "Tidak Diketahui"; 
+			prodi = "Tidak Diketahui";
 		}
-	} else {
-		prodi = "Tidak Diketahui"; 
+	}
+	else {
+		prodi = "Tidak Diketahui";
 	}
 	mahasiswa.emplace_back(nama, nim, prodi);
 }
 
-int main() 
+int main()
 {
 	vector<Mahasiswa> mahasiswa;
 
@@ -82,11 +88,11 @@ awal:
 	if (opsi == 'A' || opsi == 'a') {
 		addMahasiswa(mahasiswa);
 		goto awal;
-	} 
+	}
 	if (opsi == 'B' || opsi == 'b') {
 		cout << "Terima kasih telah menggunakan program ini!" << endl;
 		return 0;
-	} 
+	}
 	else {
 		goto awal;
 	}
