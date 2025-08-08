@@ -81,7 +81,7 @@ void ubahDataMahasiswa(vector<Mahasiswa>& mahasiswa)
 	cin >> nim;
 	auto it = find_if(mahasiswa.begin(), mahasiswa.end(), [&nim](const Mahasiswa& mhs) {
 		return mhs.nim == nim;
-	});
+		});
 	if (it != mahasiswa.end()) {
 		string namaBaru, prodiBaru;
 		cout << "Masukkan nama baru: ";
@@ -106,7 +106,7 @@ void tambahTabunganMahasiswa(vector<Mahasiswa>& mahasiswa)
 	cin >> nim;
 	auto it = find_if(mahasiswa.begin(), mahasiswa.end(), [&nim](const Mahasiswa& mhs) {
 		return mhs.nim == nim;
-	});
+		});
 	if (it != mahasiswa.end()) {
 		double jumlahTabungan;
 		cout << "Masukkan jumlah tabungan yang ingin ditambahkan: ";
@@ -137,7 +137,7 @@ void removeMahasiswa(vector<Mahasiswa>& mahasiswa, const string& nim)
 {
 	auto it = remove_if(mahasiswa.begin(), mahasiswa.end(), [&nim](const Mahasiswa& mhs) {
 		return mhs.nim == nim;
-	});
+		});
 	if (it != mahasiswa.end()) {
 		mahasiswa.erase(it, mahasiswa.end());
 	}
@@ -159,7 +159,7 @@ awal:
 
 	cout << "Tambah mahasiswa (A)   |   Ubah Data   (B)" << endl;
 	cout << "Tambah Tabungan  (C)   |   Export Data (D)" << endl;
-	cout << "Hapus Mahasiswa  (E)" << endl << endl;
+	cout << "Hapus Mahasiswa  (E)   |   Keluar      (F)" << endl << endl;
 	char opsi;
 	cin >> opsi;
 	if (opsi == 'A' || opsi == 'a') {
@@ -184,6 +184,11 @@ awal:
 		cin >> nim;
 		removeMahasiswa(mahasiswa, nim);
 		goto awal;
+	}
+	if (opsi == 'F' || opsi == 'f') {
+		cout << "Terima kasih telah menggunakan program ini." << endl;
+		system("pause");
+		return 0;
 	}
 	else {
 		goto awal;
