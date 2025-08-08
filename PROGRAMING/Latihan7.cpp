@@ -12,6 +12,7 @@ struct Mahasiswa {
 	string nim;
 	string prodi;
 	double tabungan;
+	string bulan[6] = { "Januari", "Februari", "Maret", "April", "Mei", "Juni"};
 	Mahasiswa(const string& n, const string& i, const string& p) : nama(n), nim(i), prodi(p), tabungan(0.0) {
 	}
 };
@@ -31,6 +32,9 @@ void sortMahasiswa(vector<Mahasiswa>& mahasiswa)
 			<< "| " << setw(8) << right << fixed << setprecision(2) << mhs.tabungan << " |\n";
 	}
 	cout << "--------------------------------------------------------------\n";
+	cout << "Tambah mahasiswa (A)   |   Ubah Data   (B)" << endl;
+	cout << "Tambah Tabungan  (C)   |   Export Data (D)" << endl;
+	cout << "Hapus Mahasiswa  (E)   |   Keluar      (F)" << endl << endl;
 }
 
 
@@ -74,6 +78,18 @@ void addMahasiswa(vector<Mahasiswa>& mahasiswa)
 	mahasiswa.emplace_back(nama, nim, prodi);
 }
 
+void tambahTabunganMahasiswa(Mahasiswa& mhs)
+{
+	for (int i = 0; i < 6; ++i) {
+		double jumlahTabungan;
+		cout << "Masukkan jumlah tabungan untuk bulan " << mhs.bulan[i] << ": ";
+		cin >> jumlahTabungan;
+		mhs.tabungan += jumlahTabungan;
+	}
+	cout << "Total tabungan sekarang: " << fixed << setprecision(2) << mhs.tabungan << endl;
+}
+
+
 void ubahDataMahasiswa(vector<Mahasiswa>& mahasiswa)
 {
 	string nim;
@@ -89,30 +105,24 @@ void ubahDataMahasiswa(vector<Mahasiswa>& mahasiswa)
 		getline(cin, namaBaru);
 		cout << "Masukkan program studi baru: ";
 		getline(cin, prodiBaru);
+		cout << "Ubah tabungan? (Y/N)";
+		char ubahTabungan;
+		cin >> ubahTabungan;
+		if (ubahTabungan == 'Y' || ubahTabungan == 'y') {
+			it->tabungan = 0.0;
+			for (int i = 0; i < 6; ++i) {
+				double jumlahTabungan;
+				cout << "Masukkan jumlah tabungan untuk bulan " << it->bulan[i] << ": ";
+				cin >> jumlahTabungan;
+				it->tabungan += jumlahTabungan;
+			}
+		}
+		else if (ubahTabungan != 'N' && ubahTabungan != 'n') {
+			cout << "Pilihan tidak valid, tabungan tidak diubah." << endl;
+		}
 		it->nama = namaBaru;
 		it->prodi = prodiBaru;
 		cout << "Data mahasiswa berhasil diubah." << endl;
-	}
-	else {
-		cout << "Mahasiswa dengan NIM " << nim << " tidak ditemukan." << endl;
-		system("pause");
-	}
-}
-
-void tambahTabunganMahasiswa(vector<Mahasiswa>& mahasiswa)
-{
-	string nim;
-	cout << "Masukkan NIM mahasiswa yang ingin ditambah tabungannya: ";
-	cin >> nim;
-	auto it = find_if(mahasiswa.begin(), mahasiswa.end(), [&nim](const Mahasiswa& mhs) {
-		return mhs.nim == nim;
-		});
-	if (it != mahasiswa.end()) {
-		double jumlahTabungan;
-		cout << "Masukkan jumlah tabungan yang ingin ditambahkan: ";
-		cin >> jumlahTabungan;
-		it->tabungan += jumlahTabungan;
-		cout << "Tabungan berhasil ditambahkan. Total tabungan sekarang: " << fixed << setprecision(2) << it->tabungan << endl;
 	}
 	else {
 		cout << "Mahasiswa dengan NIM " << nim << " tidak ditemukan." << endl;
@@ -154,12 +164,8 @@ int main()
 awal:
 	system("cls");
 
-
 	sortMahasiswa(mahasiswa);
 
-	cout << "Tambah mahasiswa (A)   |   Ubah Data   (B)" << endl;
-	cout << "Tambah Tabungan  (C)   |   Export Data (D)" << endl;
-	cout << "Hapus Mahasiswa  (E)   |   Keluar      (F)" << endl << endl;
 	char opsi;
 	cin >> opsi;
 	if (opsi == 'A' || opsi == 'a') {
@@ -171,7 +177,18 @@ awal:
 		goto awal;
 	}
 	if (opsi == 'C' || opsi == 'c') {
-		tambahTabunganMahasiswa(mahasiswa);
+		string nim;
+		cout << "Masukkan NIM mahasiswa yang ingin ditambah tabungan: ";
+		cin >> nim;
+		auto it = find_if(mahasiswa.begin(), mahasiswa.end(), [&nim](Mahasiswa& mhs) {
+			return mhs.nim == nim;
+		});
+		if (it != mahasiswa.end()) {
+			tambahTabunganMahasiswa(*it);
+		} else {
+			cout << "Mahasiswa dengan NIM " << nim << " tidak ditemukan." << endl;
+			system("pause");
+		}
 		goto awal;
 	}
 	if (opsi == 'D' || opsi == 'd') {
