@@ -162,7 +162,9 @@ void tampilkanFilm() {
 }
 
 void tampilkanKursi(const vector<vector<bool>>& kursi) {
-    cout << "\nKursi tersedia:\n";
+    cout << "\n====================\n";
+    cout << "-------SCREEN-------\n";
+    cout << "====================\n";
     for (int i = 0; i < 12; ++i) {
         char baris = 'A' + i;
         for (int j = 0; j < 7; ++j) {
@@ -273,7 +275,7 @@ void pilihFilm() {
     cout << "Harga Tiket: " << films[idxFilm].harga << endl;
 
     int jumlahTiket;
-    cout << "Berapa tiket yang ingin dibeli? ";
+    cout << "Berapa tiket yang ingin dibeli? " << endl; 
     cin >> jumlahTiket;
     if (jumlahTiket < 1 || jumlahTiket > 84) { 
         cout << "Jumlah tiket tidak valid.\n";
