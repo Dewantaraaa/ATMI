@@ -41,3 +41,6 @@
 
 ###
 
+<img src="https://raw.githubusercontent.com/Dewantaraaa/Dewantaraaa/output/snake.svg" alt="Snake animation" />
+
+###
