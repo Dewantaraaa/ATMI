@@ -302,7 +302,7 @@ void project::pilihFilm()
         if (kode.length() < 2 || kode.length() > 3) {
             cout << "Format kursi salah.\n";
             --t;
-            continue;
+            system("pause"); 
         }
         char baris = toupper(kode[0]);
         int kolom = stoi(kode.substr(1)) - 1;
@@ -310,12 +310,12 @@ void project::pilihFilm()
         if (idxBaris < 0 || idxBaris >= 12 || kolom < 0 || kolom >= 7) {
             cout << "Kursi tidak valid.\n";
             --t;
-            continue;
+            system("pause");
         }
         if (kursiStatus[idxFilm][idxBaris][kolom]) {
             cout << "Kursi sudah dipilih, silakan pilih kursi lain.\n";
             --t;
-            continue;
+            system ("pause");
         }
         kursiStatus[idxFilm][idxBaris][kolom] = true;
         kursiDipilih.push_back(kode);
@@ -324,11 +324,24 @@ void project::pilihFilm()
     cout << "Tiket berhasil dipesan!\n";
     int opsi;
     do {
+        ulang:
+        system("cls");
         tampilkanNota(films[idxFilm], kursiDipilih, jumlahTiket);
         cin >> opsi;
         if (opsi == 1) {
-            printNotaTxt(films[idxFilm], kursiDipilih, jumlahTiket);
-            system("pause");
+            double bayar;
+			cout << "Masukkan Nominal pembayaran: ";
+			cin >> bayar;
+            if (bayar < films[idxFilm].harga * jumlahTiket || bayar > films[idxFilm].harga *jumlahTiket ) {
+                cout << "Pembayaran tidak valid.\n";
+                system ("pause");
+                goto ulang;
+			}
+            else {
+                cout << "Pembayaran berhasil.\n";
+                printNotaTxt(films[idxFilm], kursiDipilih, jumlahTiket);
+                system("pause");
+            }
         }
         else if (opsi == 2) {
             cout << "Transaksi dibatalkan.\n";
