@@ -3,21 +3,20 @@
 
 using namespace std;
 
-double lkeliling(double a, double b)
+double hmax(double kecepatan, double elevasi)
 {
-	double hasilkeliling = (a * 2) + (b * 2);
-	return hasilkeliling;
-}
-double lluas(double D1, double D2)
-{
-	double hasilluas = 0.5 * D1 * D2;
-	return hasilluas;
+	double sudut = elevasi * 3.14 / 180;
+	double sinkos = sin(sudut);
+	double hasil = (kecepatan * kecepatan * (sinkos * sinkos)) / (10 * 2);
+	return hasil;
 }
 
-double volume(double jari, double tinggi)
+double xmax(double kecepatan, double elevasi)
 {
-	double hasilvolume = 3.14 * jari * jari * tinggi;
-	return hasilvolume;
+	double sudut = elevasi * 3.14 / 180;
+	double sinkos = sin(2 * sudut);
+	double hasil = (kecepatan * kecepatan * (sinkos)) / 10;
+	return hasil;
 }
 
 int main()
@@ -25,53 +24,44 @@ int main()
 	char opsi;
 
 awal:
-	cout << "\n================================================\n";
-	cout << "================[MESIN PINTARRRR]===============\n";
-	cout << "================================================\n";
-	cout << "Hitung luas & keliling layang (A)\n";
-	cout << "Hitung Volume Tabung (B)\n";
-	cout << "Keluar (C)\n\n";
+	system("cls");
+	cout << "\nSelamat datang di penghitung jarak & ketinggian max peluru \ningin mencari apa nih? \nHmax (A) \nXmax (B) \nKeluar (C)\n\n";
 	cin >> opsi;
 
 	if (opsi == 'A' || opsi == 'a')
 	{
-		double a, b, D1, D2;
+		double kecepatan, elevasi;
 
-		cout << "\n================================================\n";
-		cout << "================[Penghitung Luas]===============\n";
+		cout << "================================================\n";
+		cout << "================[Penghitung Hmax]===============\n";
 		cout << "================================================\n";
 
-		cout << "Masukkan A:";
-		cin >> a;
-		cout << "Masukkan B:";
-		cin >> b;
+		cout << "Masukkan Kecepatan (m/s):";
+		cin >> kecepatan;
+		cout << "Masukkan Sudut Elevasi (o):";
+		cin >> elevasi;
 
-		cout << "Masukkan D1:";
-		cin >> D1;
-		cout << "Masukkan D2:";
-		cin >> D2;
-
-		cout << "\nHasil dari penghitungan Keliling :" << lkeliling(a, b) << "cm" << endl;
-		cout << "Hasil dari penghitungan luas :" << lluas(D1, D2) << "cm2" << endl;
-
+		cout << "Hasil dari penghitungan :" << hmax(kecepatan, elevasi) << endl;
+		system("pause");
 		goto awal;
 
 		return 0;
 	}
 	if (opsi == 'B' || opsi == 'b')
 	{
-		double jari, tinggi;
+		double kecepatan, elevasi;
 
-		cout << "\n================================================\n";
-		cout << "============[Penghitung Volume Tabung]============\n";
-		cout << "==================================================\n";
+		cout << "================================================\n";
+		cout << "================[Penghitung Xmax]===============\n";
+		cout << "================================================\n";
 
-		cout << "Masukkan jari jari : ";
-		cin >> jari;
-		cout << "Masukkan tinggi:";
-		cin >> tinggi;
+		cout << "Masukkan Kecepatan (m/s):";
+		cin >> kecepatan;
+		cout << "Masukkan Sudut Elevasi (o):";
+		cin >> elevasi;
 
-		cout << "\nHasil dari penghitungan :" << volume(jari, tinggi) << "cm3";
+		cout << "Hasil dari penghitungan :" << xmax(kecepatan, elevasi) << endl;
+		system("pause");
 		goto awal;
 
 		return 0;
@@ -84,5 +74,7 @@ awal:
 	{
 		goto awal;
 	}
+
+	return 0;
 
 }
