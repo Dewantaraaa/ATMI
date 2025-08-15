@@ -1,4 +1,4 @@
-<h2 align="center">Agung Suparmin</h2>
+<img src="[https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg](https://i.imgur.com/TAWMd7P.gif)" height="30" alt="python logo"  />
 
 ###
 
