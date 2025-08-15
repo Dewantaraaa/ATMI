@@ -29,10 +29,10 @@ awal:
 	cout << "================[MESIN PINTARRRR]===============\n";
 	cout << "================================================\n";
 	cout << "Hitung luas & keliling layang (A)\n";
-	cout << "Hitung Volume Tabung (B)\n\n";
+	cout << "Hitung Volume Tabung (B)\n";
+	cout << "Keluar (C)\n\n";
 	cin >> opsi;
 
-	system("clear");
 	if (opsi == 'A' || opsi == 'a')
 	{
 		double a, b, D1, D2;
@@ -52,7 +52,7 @@ awal:
 		cin >> D2;
 
 		cout << "\nHasil dari penghitungan Keliling :" << lkeliling(a, b) << "cm" << endl;
-		cout << "Hasil dari penghitungan luas :" << lluas(D1, D2) << "cm" << endl;
+		cout << "Hasil dari penghitungan luas :" << lluas(D1, D2) << "cm2" << endl;
 
 		goto awal;
 
@@ -74,6 +74,10 @@ awal:
 		cout << "\nHasil dari penghitungan :" << volume(jari, tinggi) << "cm3";
 		goto awal;
 
+		return 0;
+	}
+	if (opsi == 'C' || opsi == 'c')
+	{
 		return 0;
 	}
 	else
