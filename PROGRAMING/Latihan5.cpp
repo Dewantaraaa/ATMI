@@ -45,22 +45,22 @@ void addMahasiswa(vector<Mahasiswa>& mahasiswa)
 	if (nim.length() >= 5) {
 		char prodiCode = nim[4];
 		if (prodiCode == '1') {
-			prodi = "TMI";
+			prodi = "TMI (D3)";
 		}
 		else if (prodiCode == '2') {
-			prodi = "TMK";
+			prodi = "TMK (D3)";
 		}
 		else if (prodiCode == '3') {
-			prodi = "TPM";
+			prodi = "TPM (D3)";
 		}
 		else if (prodiCode == '4') {
-			prodi = "RTM";
+			prodi = "RTM (D4)";
 		}
 		else if (prodiCode == '5') {
-			prodi = "PM";
+			prodi = "PM (D4)";
 		}
 		else if (prodiCode == '6') {
-			prodi = "TRMK";
+			prodi = "TRMK (D4)";
 		}
 		else {
 			prodi = "Tidak Diketahui";
@@ -78,7 +78,6 @@ int main()
 
 awal:
 	system("cls");
-
 
 	sortMahasiswa(mahasiswa);
 
