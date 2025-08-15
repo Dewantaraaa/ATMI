@@ -1,6 +1,6 @@
 <div align="center">
   <img src="https://i.imgur.com/TAWMd7P.gif" height="30" alt="python logo"  />
-  <img width="12" />
+  <img width="30" />
 </div>
 
 ###
