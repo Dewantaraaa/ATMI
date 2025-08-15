@@ -29,17 +29,32 @@ int akar()
 
 int main()
 {
-	awal:
+awal:
+	system("cls");
 	cout << "----------------------------------------------------\n";
 	cout << "\t\t\tPointer" << endl;
 	cout << "----------------------------------------------------\n";
 	cout << "";
 
-	cout << "Masukkan nilai = ";
-	cin >> nilai;
-	address();
-	kuadrat();
-	akar();
-	goto awal;
+	char opsi;
+	cout << "Ketik A untuk menghitung" << endl << "Ketik B untuk keluar" << endl << endl;
+	cin >> opsi;
 
+	if (opsi == 'A' || opsi == 'a') {
+		cout << "Masukkan nilai = ";
+		cin >> nilai;
+		address();
+		kuadrat();
+		akar();
+		system("pause");
+		goto awal;
+	}else if (opsi == 'B' || opsi == 'b') {
+		cout << "Terima kasih telah menggunakan program ini!" << endl;
+		system("pause");
+		return 0;
+	}
+	else
+	{
+		goto awal;
+	}
 }
