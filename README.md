@@ -1,4 +1,7 @@
-<img src="[https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg](https://i.imgur.com/TAWMd7P.gif)" height="30" alt="python logo"  />
+<div align="center">
+  <img src="https://i.imgur.com/TAWMd7P.gif" height="30" alt="python logo"  />
+  <img width="12" />
+</div>
 
 ###
 
