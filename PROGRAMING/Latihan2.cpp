@@ -2,12 +2,11 @@
 #include <iostream>
 #include <cmath>
 
-
 using namespace std;
 
-int menu, jari, d1, d2;	
-const double pi = 3.14;						// Deklarasi PI
-double volume, tinggi, luas, kel;			// Deklarasi rad, tinggi dan jarak
+int menu, jari, d1, d2;
+const double pi = 3.14;						
+double volume, tinggi, luas, kel;			
 
 void tabung();
 void luaslayang();
@@ -31,20 +30,20 @@ awal:
 	{
 	case 1:
 	satu:
-		system("cls"); // Clear Screen
+		system("cls"); 
 		luaslayang();
 		break;
 
 	case 2:
 	duwa:
-		system("cls"); // Clear Screen
-		kellayang(); // Memanggil fungsi hmax
+		system("cls"); 
+		kellayang(); 
 		break;
 
 	case 3:
 	tiga:
-		system("cls"); // Clear Screen
-		tabung(); // Memanggil fungsi hmax
+		system("cls"); 
+		tabung(); 
 		break;
 
 	case 4:
@@ -106,35 +105,35 @@ akhir:
 }
 
 
-void tabung()	// Jarak
+void tabung()	
 {
 	cout << ">>>>> MENGHITUNG VOLUME TABUNG <<<<<\n";
 	cout << "\nMasukkan Jari-Jari Tabung	: ";
-	cin >> jari; // Memasukkan angka ke variabel jari
+	cin >> jari; 
 	cout << "Masukkan Tinggi Tabung		: ";
-	cin >> tinggi; // Memasukkan angka ke variabel tinggi
+	cin >> tinggi; 
 	volume = pi * pow(jari, 2) * tinggi;
 	cout << "\n> Volume Tabungnya adalah " << volume << "m3";
 }
 
-void luaslayang() // Tinggi
+void luaslayang() 
 {
 	cout << ">>>>> MENGHITUNG LUAS LAYANG-LAYANG <<<<<\n";
 	cout << "\nMasukkan Diagonal 1	: ";
-	cin >> d1; // Memasukkan angka ke variabel jari
+	cin >> d1; 
 	cout << "Masukkan Diagonal 2	: ";
-	cin >> d2; // Memasukkan angka ke variabel tinggi
+	cin >> d2; 
 	luas = 0.5 * d1 * d2;
 	cout << "\n> Luas Layang-Layang tersebut adalah " << luas << "m2";
 }
 
-void kellayang() // Tinggi
+void kellayang() 
 {
 	cout << ">>>>> MENGHITUNG KELILING LAYANG-LAYANG <<<<<\n";
 	cout << "\nMasukkan Sisi 1	: ";
-	cin >> d1; // Memasukkan angka ke variabel jari
+	cin >> d1; 
 	cout << "Masukkan Sisi 2	: ";
-	cin >> d2; // Memasukkan angka ke variabel tinggi
+	cin >> d2; 
 	kel = 2 * (d1 + d2);
 	cout << "\n> Keliling Layang-Layang tersebut adalah " << kel << "m ";
 }
