@@ -1,80 +1,116 @@
 #include <iostream>
 #include <cmath>
-
 using namespace std;
 
-double hmax(double kecepatan, double elevasi)
-{
-	double sudut = elevasi * 3.14 / 180;
-	double sinkos = sin(sudut);
-	double hasil = (kecepatan * kecepatan * (sinkos * sinkos)) / (10 * 2);
-	return hasil;
+const double pi = 3.14;
+char input, yt;
+double a, b, d1, d2, radius, tinggi;
+
+void headerUtama() {
+        cout << "-------------------------------" << endl;
+        cout << "\tMARI MENGHITUNG" << endl;
+        cout << "-------------------------------" << endl;
+        cout << endl << endl;
 }
 
-double xmax(double kecepatan, double elevasi)
-{
-	double sudut = elevasi * 3.14 / 180;
-	double sinkos = sin(2 * sudut);
-	double hasil = (kecepatan * kecepatan * (sinkos)) / 10;
-	return hasil;
+void menuUtama() {
+        cout << "Apa yang ingin anda hitung?" << endl;
+        cout << "A. Luas dan Keliling Layang-layang" << endl;
+        cout << "B. Volume Tabung" << endl;
+        cout << "C. Keluar" << endl;
+        cout << "\n> ";
+        cin >> input;
+        cout << endl;
 }
 
-int main()
+double luas(double d1, double d2);
+double keliling(double a, double b);
+double volume(double radius, double tinggi);
+
+double luas(double d1, double d2)
 {
-	char opsi;
+        return(0.5 * d1 * d2);
+}
+
+double keliling(double a, double b)
+{
+        return(2 * (a + b));
+}
+
+double volume(double radius, double tinggi)
+{
+        return(pi * (radius * radius) * tinggi);
+}
+
+void inputA() {
+        cout << "Menghitung Luas dan Keliling Layang-layang" << endl;
+        cout << "------------------------------------------" << endl;
+        cout << "Input sisi miring 1(a)\t: ";
+        cin >> a;
+        cout << "Input sisi miring 2(b)\t: ";
+        cin >> b;
+        cout << "Input diagonal 1(d1)\t: ";
+
+        cin >> d1;
+        cout << "Input diagonal 2(d2)\t: ";
+        cin >> d2;
+        cout << endl;
+        cout << "------------------------------------------" << endl;
+        cout << "Luas Layang-layang Adalah\t: " << luas(d1, d2) << "cm2" << endl;
+        cout << "Keliling Layang-layang Adalah\t: " << keliling(a, b) << "cm" << endl;
+}
+
+void inputB() {
+        cout << "\tMenghitung Volume Tabung" << endl;
+        cout << "-------------------------------------" << endl;
+        cout << "Input Jari-jari Tabung\t: ";
+        cin >> radius;
+        cout << "Input Tinggi Tabung\t: ";
+        cin >> tinggi;
+        cout << endl;
+        cout << "-------------------------------------" << endl;
+        cout << "Volume Tabung Adalah\t: " << volume(radius, tinggi) << "cm3" << endl;
+}
+
+int main() {
 
 awal:
-	system("cls");
-	cout << "\nSelamat datang di penghitung jarak & ketinggian max peluru \ningin mencari apa nih? \nHmax (A) \nXmax (B) \nKeluar (C)\n\n";
-	cin >> opsi;
+        headerUtama();
+        menuUtama();
 
-	if (opsi == 'A' || opsi == 'a')
-	{
-		double kecepatan, elevasi;
 
-		cout << "================================================\n";
-		cout << "================[Penghitung Hmax]===============\n";
-		cout << "================================================\n";
+        if (input == 'A' || input == 'a') {
 
-		cout << "Masukkan Kecepatan (m/s):";
-		cin >> kecepatan;
-		cout << "Masukkan Sudut Elevasi (o):";
-		cin >> elevasi;
+                inputA();
 
-		cout << "Hasil dari penghitungan :" << hmax(kecepatan, elevasi) << endl;
-		system("pause");
-		goto awal;
+        }
+        else if (input == 'B' || input == 'b') {
 
-		return 0;
-	}
-	if (opsi == 'B' || opsi == 'b')
-	{
-		double kecepatan, elevasi;
+                inputB();
 
-		cout << "================================================\n";
-		cout << "================[Penghitung Xmax]===============\n";
-		cout << "================================================\n";
+        }
+        else if (input == 'C' || input == 'c') {
+                goto akhir;
+        }
+        else {
 
-		cout << "Masukkan Kecepatan (m/s):";
-		cin >> kecepatan;
-		cout << "Masukkan Sudut Elevasi (o):";
-		cin >> elevasi;
+                goto akhir;
 
-		cout << "Hasil dari penghitungan :" << xmax(kecepatan, elevasi) << endl;
-		system("pause");
-		goto awal;
+        }
+        cout << endl;
+        cout << "Masukkan Data Lagi? (Y/T)" << endl;
+        cout << "> ";
+        cin >> yt;
+        cout << endl;
 
-		return 0;
-	}
-	if (opsi == 'C' || opsi == 'c')
-	{
-		return 0;
-	}
-	else
-	{
-		goto awal;
-	}
+        if (yt == 'Y' || yt == 'y') {
+                goto awal;
+        }
+        else {
+                goto akhir;
+        }
 
-	return 0;
+akhir:
+        return 0;
 
 }
