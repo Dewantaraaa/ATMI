@@ -1,116 +1,140 @@
+#include <windows.h>
 #include <iostream>
 #include <cmath>
+
+
 using namespace std;
 
-const double pi = 3.14;
-char input, yt;
-double a, b, d1, d2, radius, tinggi;
+int menu, jari, d1, d2;	
+const double pi = 3.14;						// Deklarasi PI
+double volume, tinggi, luas, kel;			// Deklarasi rad, tinggi dan jarak
 
-void headerUtama() {
-        cout << "-------------------------------" << endl;
-        cout << "\tMARI MENGHITUNG" << endl;
-        cout << "-------------------------------" << endl;
-        cout << endl << endl;
-}
+void tabung();
+void luaslayang();
+void kellayang();
 
-void menuUtama() {
-        cout << "Apa yang ingin anda hitung?" << endl;
-        cout << "A. Luas dan Keliling Layang-layang" << endl;
-        cout << "B. Volume Tabung" << endl;
-        cout << "C. Keluar" << endl;
-        cout << "\n> ";
-        cin >> input;
-        cout << endl;
-}
-
-double luas(double d1, double d2);
-double keliling(double a, double b);
-double volume(double radius, double tinggi);
-
-double luas(double d1, double d2)
+int main()
 {
-        return(0.5 * d1 * d2);
-}
-
-double keliling(double a, double b)
-{
-        return(2 * (a + b));
-}
-
-double volume(double radius, double tinggi)
-{
-        return(pi * (radius * radius) * tinggi);
-}
-
-void inputA() {
-        cout << "Menghitung Luas dan Keliling Layang-layang" << endl;
-        cout << "------------------------------------------" << endl;
-        cout << "Input sisi miring 1(a)\t: ";
-        cin >> a;
-        cout << "Input sisi miring 2(b)\t: ";
-        cin >> b;
-        cout << "Input diagonal 1(d1)\t: ";
-
-        cin >> d1;
-        cout << "Input diagonal 2(d2)\t: ";
-        cin >> d2;
-        cout << endl;
-        cout << "------------------------------------------" << endl;
-        cout << "Luas Layang-layang Adalah\t: " << luas(d1, d2) << "cm2" << endl;
-        cout << "Keliling Layang-layang Adalah\t: " << keliling(a, b) << "cm" << endl;
-}
-
-void inputB() {
-        cout << "\tMenghitung Volume Tabung" << endl;
-        cout << "-------------------------------------" << endl;
-        cout << "Input Jari-jari Tabung\t: ";
-        cin >> radius;
-        cout << "Input Tinggi Tabung\t: ";
-        cin >> tinggi;
-        cout << endl;
-        cout << "-------------------------------------" << endl;
-        cout << "Volume Tabung Adalah\t: " << volume(radius, tinggi) << "cm3" << endl;
-}
-
-int main() {
-
+	system("color F0");
+	char yt;
 awal:
-        headerUtama();
-        menuUtama();
+	cout << "==============================================";
+	cout << "\n                 LATIHAN 2                \n";
+	cout << "==============================================";
+	cout << "\n1. Luas Layang-Layang\n";
+	cout << "2. Keliling Layang-Layang\n";
+	cout << "3. Volume Tabung\n";
+	cout << "4. Keluar \n";
+	cout << "\nPilih Menu : ";
+	cin >> menu;
+	switch (menu)
+	{
+	case 1:
+	satu:
+		system("cls"); // Clear Screen
+		luaslayang();
+		break;
 
+	case 2:
+	duwa:
+		system("cls"); // Clear Screen
+		kellayang(); // Memanggil fungsi hmax
+		break;
 
-        if (input == 'A' || input == 'a') {
+	case 3:
+	tiga:
+		system("cls"); // Clear Screen
+		tabung(); // Memanggil fungsi hmax
+		break;
 
-                inputA();
+	case 4:
+		goto akhir;
+		break;
 
-        }
-        else if (input == 'B' || input == 'b') {
+	default:
+		cout << "\n==================";
+		cout << "\nPilihan Tidak Ada";
+		cout << "\n==================";
 
-                inputB();
-
-        }
-        else if (input == 'C' || input == 'c') {
-                goto akhir;
-        }
-        else {
-
-                goto akhir;
-
-        }
-        cout << endl;
-        cout << "Masukkan Data Lagi? (Y/T)" << endl;
-        cout << "> ";
-        cin >> yt;
-        cout << endl;
-
-        if (yt == 'Y' || yt == 'y') {
-                goto awal;
-        }
-        else {
-                goto akhir;
-        }
-
+	}
+	cout << "\n\nCoba Lagi? Ya atau Tidak " << endl;
+	cout << "Masukkan Data Lagi (y/t) ?  ";
+	cin >> yt;
+	cout << endl;
+	if (yt == 'Y' || yt == 'y') {
+		if (menu == 1)
+		{
+			goto satu;
+		}
+		else if (menu == 2)
+		{
+			goto duwa;
+		}
+		else if (menu == 3)
+		{
+			goto tiga;
+		}
+		else
+		{
+			system("cls");
+			goto awal;
+		}
+	}
+	if (yt == 'T' || yt == 't') {
+		if (menu == 1)
+		{
+			system("cls");
+			goto awal;
+		}
+		else if (menu == 2)
+		{
+			system("cls");
+			goto awal;
+		}
+		else if (menu == 3)
+		{
+			system("cls");
+			goto awal;
+		}
+		else
+		{
+			goto akhir;
+		}
+	}
 akhir:
-        return 0;
+	return 0;
+}
 
+
+void tabung()	// Jarak
+{
+	cout << ">>>>> MENGHITUNG VOLUME TABUNG <<<<<\n";
+	cout << "\nMasukkan Jari-Jari Tabung	: ";
+	cin >> jari; // Memasukkan angka ke variabel jari
+	cout << "Masukkan Tinggi Tabung		: ";
+	cin >> tinggi; // Memasukkan angka ke variabel tinggi
+	volume = pi * pow(jari, 2) * tinggi;
+	cout << "\n> Volume Tabungnya adalah " << volume << "m3";
+}
+
+void luaslayang() // Tinggi
+{
+	cout << ">>>>> MENGHITUNG LUAS LAYANG-LAYANG <<<<<\n";
+	cout << "\nMasukkan Diagonal 1	: ";
+	cin >> d1; // Memasukkan angka ke variabel jari
+	cout << "Masukkan Diagonal 2	: ";
+	cin >> d2; // Memasukkan angka ke variabel tinggi
+	luas = 0.5 * d1 * d2;
+	cout << "\n> Luas Layang-Layang tersebut adalah " << luas << "m2";
+}
+
+void kellayang() // Tinggi
+{
+	cout << ">>>>> MENGHITUNG KELILING LAYANG-LAYANG <<<<<\n";
+	cout << "\nMasukkan Sisi 1	: ";
+	cin >> d1; // Memasukkan angka ke variabel jari
+	cout << "Masukkan Sisi 2	: ";
+	cin >> d2; // Memasukkan angka ke variabel tinggi
+	kel = 2 * (d1 + d2);
+	cout << "\n> Keliling Layang-Layang tersebut adalah " << kel << "m ";
 }
