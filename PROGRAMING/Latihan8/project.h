@@ -1,28 +1,49 @@
 #include <iostream>
+#include <iomanip>
 #include <vector>
 #include <string>
+#include <limits>
+#include <fstream>
+
 using namespace std;
+
+struct PresensiHari {
+    int jamMasuk = -1;
+    int jamKeluar = -1;
+};
 
 struct Mahasiswa {
     string nama;
     string nim;
-    string prodi;
-    vector<string> hari = { "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu" };
-    vector<int> inputJam = vector<int>(7, 0);
-    vector<int> saldoJam = vector<int>(7, 0);
-    int saldoJamTotal = 0;
+    int jamPlusMinus = 0;
+    PresensiHari presensi[7]; 
+};
+
+struct Jadwal {
+    int jamMasuk = 7;
+    int jamKeluar = 12;
+};
+
+vector<Mahasiswa> daftarMahasiswa;
+Jadwal jadwal;
+
+Mahasiswa* cariMahasiswa(const string& nim) {
+    for (auto& mhs : daftarMahasiswa) {
+        if (mhs.nim == nim) return &mhs;
+    }
+    return nullptr;
+}
+
+const char* namaHari[7] = {
+    "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"
 };
 
 class Project {
 public:
-    void entertocontinue();
-    void mainHeader();
-    void mainMenu();
-    void addMahasiswa(vector<Mahasiswa>& mahasiswa);
-    void deleteMahasiswa(vector<Mahasiswa>& mahasiswa);
-    void displayMahasiswa(const vector<Mahasiswa>& mahasiswa);
-    void inputJam(vector<Mahasiswa>& mahasiswa);
-    void exportData(const vector<Mahasiswa>& mahasiswa);
-    string getProdiFromNIM(const string& nim);
-    void landspace();
+    void tampilkanDaftarMahasiswa();
+    void tampilkanTabelPresensi(const Mahasiswa* mhs);
+    void cetakTabelPresensiKeFile(const Mahasiswa* mhs);
+    void adminMenu();
+    void presensiMenu();
+	void landspace();
 };
