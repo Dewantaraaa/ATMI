@@ -1,192 +1,421 @@
 #include "project.h"
+#include <iostream>
+#include <iomanip>
+#include <vector>
+#include <string>
+#include <limits>
+#include <fstream>
 
-void project::sortMahasiswa(vector<Mahasiswa>& mahasiswa)
+void Project::tampilkanDaftarMahasiswa()
 {
-	sort(mahasiswa.begin(), mahasiswa.end(), [](const Mahasiswa& a, const Mahasiswa& b) {
-		return a.nim < b.nim;
-		});
-	cout << "--------------------------------------------------------------\n";
-	cout << "| NIM         | Nama Mahasiswa   | Program Studi  | Tabungan |\n";
-	cout << "--------------------------------------------------------------\n";
-	for (const auto& mhs : mahasiswa) {
-		cout << "| " << setw(12) << left << mhs.nim
-			<< "| " << setw(17) << left << mhs.nama
-			<< "| " << setw(15) << left << mhs.prodi
-			<< "| " << setw(8) << right << fixed << setprecision(2) << mhs.tabungan << " |\n";
-	}
-	cout << "--------------------------------------------------------------\n";
-	cout << "Tambah mahasiswa (A)   |   Ubah Data   (B)" << endl;
-	cout << "Tambah Tabungan  (C)   |   Export Data (D)" << endl;
-	cout << "Hapus Mahasiswa  (E)   |   Keluar      (F)" << endl << endl;
+    cout << left << setw(25) << "Nama"
+        << setw(15) << "NIM"
+        << setw(15) << "Jam Plus/Minus" << endl;
+    cout << string(55, '-') << endl;
+    for (const auto& mhs : daftarMahasiswa) {
+        cout << left << setw(25) << mhs.nama
+            << setw(15) << mhs.nim
+            << setw(15) << mhs.jamPlusMinus << endl;
+    }
+    cout << endl;
 }
 
-void project::addMahasiswa(vector<Mahasiswa>& mahasiswa)
+void Project::tampilkanTabelPresensi(const Mahasiswa* mhs)
 {
-	string nama, nim;
-	cout << "Masukkan nama mahasiswa: ";
-	cin.ignore();
-	getline(cin, nama);
-	cout << "Masukkan NIM mahasiswa: ";
-	getline(cin, nim);
+    int totalPlus = 0;
+    int totalMinus = 0;
+    cout << left << setw(10) << "Hari"
+        << setw(15) << "Jam Masuk"
+        << setw(15) << "Jam Keluar"
+        << setw(20) << "Status Masuk"
+        << setw(20) << "Status Keluar" << endl;
+    cout << string(80, '-') << endl;
+    for (int i = 0; i < 7; ++i) {
+        cout << left << setw(10) << namaHari[i];
+        // Jam Masuk
+        if (mhs->presensi[i].jamMasuk == -1)
+            cout << setw(15) << "-";
+        else
+            cout << setw(15) << mhs->presensi[i].jamMasuk;
+        // Jam Keluar
+        if (mhs->presensi[i].jamKeluar == -1)
+            cout << setw(15) << "-";
+        else
+            cout << setw(15) << mhs->presensi[i].jamKeluar;
 
-	string prodi;
-	if (nim.length() >= 5) {
-		char prodiCode = nim[4];
-		if (prodiCode == '1') {
-			prodi = "TMI";
-		}
-		else if (prodiCode == '2') {
-			prodi = "TMK";
-		}
-		else if (prodiCode == '3') {
-			prodi = "TPM";
-		}
-		else if (prodiCode == '4') {
-			prodi = "RTM";
-		}
-		else if (prodiCode == '5') {
-			prodi = "PM";
-		}
-		else if (prodiCode == '6') {
-			prodi = "TRMK";
-		}
-		else {
-			prodi = "Tidak Diketahui";
-		}
-	}
-	else {
-		prodi = "Tidak Diketahui";
-	}
-	mahasiswa.emplace_back(nama, nim, prodi);
+        // Status Masuk
+        if (mhs->presensi[i].jamMasuk == -1) {
+            cout << setw(20) << "-";
+        }
+        else if (mhs->presensi[i].jamMasuk < jadwal.jamMasuk) {
+            int plus = jadwal.jamMasuk - mhs->presensi[i].jamMasuk;
+            totalPlus += plus;
+            cout << setw(20) << ("plus(+" + to_string(plus) + ")");
+        }
+        else if (mhs->presensi[i].jamMasuk > jadwal.jamMasuk) {
+            int minus = mhs->presensi[i].jamMasuk - jadwal.jamMasuk;
+            totalMinus += minus;
+            cout << setw(20) << ("terlambat(-" + to_string(minus) + ")");
+        }
+        else {
+            cout << setw(20) << "Aman";
+        }
+
+        // Status Keluar
+        if (mhs->presensi[i].jamKeluar == -1) {
+            cout << setw(20) << "-";
+        }
+        else if (mhs->presensi[i].jamKeluar < jadwal.jamKeluar) {
+            int minus = jadwal.jamKeluar - mhs->presensi[i].jamKeluar;
+            totalMinus += minus;
+            cout << setw(20) << ("minus(-" + to_string(minus) + ")");
+        }
+        else if (mhs->presensi[i].jamKeluar > jadwal.jamKeluar) {
+            int plus = mhs->presensi[i].jamKeluar - jadwal.jamKeluar;
+            totalPlus += plus;
+            cout << setw(20) << ("plus(+" + to_string(plus) + ")");
+        }
+        else {
+            cout << setw(20) << "Aman";
+        }
+        cout << endl;
+    }
+    cout << endl;
+    cout << "Total Jam Plus   : " << totalPlus << endl;
+    cout << "Total Jam Minus  : " << totalMinus << endl;
+    cout << "Total Jam Saat Ini: ";
+    int total = totalPlus - totalMinus;
+    if (total > 0)
+        cout << "plus(+" << total << ")" << endl;
+    else if (total < 0)
+        cout << "minus(" << total << ")" << endl;
+    else
+        cout << "0" << endl;
+    cout << endl;
 }
 
-void project::tambahTabunganMahasiswa(Mahasiswa& mhs)
+void Project::cetakTabelPresensiKeFile(const Mahasiswa* mhs)
 {
-	for (int i = 0; i < 6; ++i) {
-		double jumlahTabungan;
-		cout << "Masukkan jumlah tabungan untuk bulan " << mhs.bulan[i] << ": ";
-		cin >> jumlahTabungan;
-		mhs.tabungan += jumlahTabungan;
-	}
-	cout << "Total tabungan sekarang: " << fixed << setprecision(2) << mhs.tabungan << endl;
+    int totalPlus = 0;
+    int totalMinus = 0;
+    std::string filename = mhs->nim + ".txt";
+    std::ofstream out(filename);
+    if (!out) {
+        cout << "Gagal membuat file " << filename << endl;
+        return;
+    }
+    out << "Data Presensi Mahasiswa\n";
+    out << "Nama: " << mhs->nama << endl;
+    out << "NIM : " << mhs->nim << endl;
+    out << left << setw(10) << "Hari"
+        << setw(15) << "Jam Masuk"
+        << setw(15) << "Jam Keluar"
+        << setw(20) << "Status Masuk"
+        << setw(20) << "Status Keluar" << endl;
+    out << string(80, '-') << endl;
+    for (int i = 0; i < 7; ++i) {
+        out << left << setw(10) << namaHari[i];
+        // Jam Masuk
+        if (mhs->presensi[i].jamMasuk == -1)
+            out << setw(15) << "-";
+        else
+            out << setw(15) << mhs->presensi[i].jamMasuk;
+        // Jam Keluar
+        if (mhs->presensi[i].jamKeluar == -1)
+            out << setw(15) << "-";
+        else
+            out << setw(15) << mhs->presensi[i].jamKeluar;
+
+        // Status Masuk
+        if (mhs->presensi[i].jamMasuk == -1) {
+            out << setw(20) << "-";
+        }
+        else if (mhs->presensi[i].jamMasuk < jadwal.jamMasuk) {
+            int plus = jadwal.jamMasuk - mhs->presensi[i].jamMasuk;
+            totalPlus += plus;
+            out << setw(20) << ("plus(+" + to_string(plus) + ")");
+        }
+        else if (mhs->presensi[i].jamMasuk > jadwal.jamMasuk) {
+            int minus = mhs->presensi[i].jamMasuk - jadwal.jamMasuk;
+            totalMinus += minus;
+            out << setw(20) << ("terlambat(-" + to_string(minus) + ")");
+        }
+        else {
+            out << setw(20) << "Aman";
+        }
+
+        // Status Keluar
+        if (mhs->presensi[i].jamKeluar == -1) {
+            out << setw(20) << "-";
+        }
+        else if (mhs->presensi[i].jamKeluar < jadwal.jamKeluar) {
+            int minus = jadwal.jamKeluar - mhs->presensi[i].jamKeluar;
+            totalMinus += minus;
+            out << setw(20) << ("minus(-" + to_string(minus) + ")");
+        }
+        else if (mhs->presensi[i].jamKeluar > jadwal.jamKeluar) {
+            int plus = mhs->presensi[i].jamKeluar - jadwal.jamKeluar;
+            totalPlus += plus;
+            out << setw(20) << ("plus(+" + to_string(plus) + ")");
+        }
+        else {
+            out << setw(20) << "Aman";
+        }
+        out << endl;
+    }
+    out << endl;
+    out << "Total Jam Plus   : " << totalPlus << endl;
+    out << "Total Jam Minus  : " << totalMinus << endl;
+    out << "Total Jam Saat Ini: ";
+    int total = totalPlus - totalMinus;
+    if (total > 0)
+        out << "plus(+" << total << ")" << endl;
+    else if (total < 0)
+        out << "minus(" << total << ")" << endl;
+    else
+        out << "0" << endl;
+    out << endl;
+    out.close();
+    cout << "Data presensi berhasil dicetak ke file " << filename << endl;
 }
 
-void project::ubahDataMahasiswa(vector<Mahasiswa>& mahasiswa)
+void Project::adminMenu()
 {
-	string nim;
-	cout << "Masukkan NIM mahasiswa yang ingin diubah: ";
-	cin >> nim;
-	auto it = find_if(mahasiswa.begin(), mahasiswa.end(), [&nim](const Mahasiswa& mhs) {
-		return mhs.nim == nim;
-		});
-	if (it != mahasiswa.end()) {
-		string namaBaru, prodiBaru;
-		cout << "Masukkan nama baru: ";
-		cin.ignore();
-		getline(cin, namaBaru);
-		cout << "Masukkan program studi baru: ";
-		getline(cin, prodiBaru);
-		cout << "Ubah tabungan? (Y/N)";
-		char ubahTabungan;
-		cin >> ubahTabungan;
-		if (ubahTabungan == 'Y' || ubahTabungan == 'y') {
-			it->tabungan = 0.0;
-			for (int i = 0; i < 6; ++i) {
-				double jumlahTabungan;
-				cout << "Masukkan jumlah tabungan untuk bulan " << it->bulan[i] << ": ";
-				cin >> jumlahTabungan;
-				it->tabungan += jumlahTabungan;
-			}
-		}
-		else if (ubahTabungan != 'N' && ubahTabungan != 'n') {
-			cout << "Pilihan tidak valid, tabungan tidak diubah." << endl;
-		}
-		it->nama = namaBaru;
-		it->prodi = prodiBaru;
-		cout << "Data mahasiswa berhasil diubah." << endl;
-	}
-	else {
-		cout << "Mahasiswa dengan NIM " << nim << " tidak ditemukan." << endl;
-		system("pause");
-	}
+    int pilihan;
+    do {
+        system("cls");
+        cout << "Daftar Mahasiswa:\n";
+        tampilkanDaftarMahasiswa();
+
+        cout << "-------------------------------------------------------\n";
+        cout << "1. Tambah Mahasiswa\n";
+        cout << "2. Edit Mahasiswa\n";
+        cout << "3. Hapus Mahasiswa\n";
+        cout << "4. Lihat Tabel Mahasiswa\n";
+        cout << "5. Atur Jadwal Jam Masuk/Keluar\n";
+        cout << "6. Cetak Data Presensi Mahasiswa\n";
+        cout << "0. Logout\n";
+        cout << "Pilih: ";
+        cin >> pilihan;
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+        if (pilihan == 1) {
+            system("cls");
+            Mahasiswa mhs;
+            cout << "Tambah Mahasiswa\n";
+            cout << "Nama: "; getline(cin, mhs.nama);
+            cout << "NIM: "; getline(cin, mhs.nim);
+            daftarMahasiswa.push_back(mhs);
+            cout << "Mahasiswa ditambahkan.\n";
+            cin.get();
+        }
+        else if (pilihan == 2) {
+            system("cls");
+            string nim;
+            cout << "Edit Mahasiswa\n";
+            cout << "Masukkan NIM yang akan diedit: "; getline(cin, nim);
+            Mahasiswa* mhs = cariMahasiswa(nim);
+            if (mhs) {
+                cout << "Nama baru: "; getline(cin, mhs->nama);
+                cout << "NIM baru: "; getline(cin, mhs->nim);
+                cout << "Data mahasiswa diupdate.\n";
+            }
+            else {
+                cout << "Mahasiswa tidak ditemukan.\n";
+            }
+            cin.get();
+        }
+        else if (pilihan == 3) {
+            system("cls");
+            string nim;
+            cout << "Hapus Mahasiswa\n";
+            cout << "Masukkan NIM yang akan dihapus: "; getline(cin, nim);
+            auto it = daftarMahasiswa.begin();
+            while (it != daftarMahasiswa.end()) {
+                if (it->nim == nim) {
+                    it = daftarMahasiswa.erase(it);
+                    cout << "Mahasiswa dihapus.\n";
+                    break;
+                }
+                else {
+                    ++it;
+                }
+            }
+            if (it == daftarMahasiswa.end()) {
+                cout << "Mahasiswa tidak ditemukan.\n";
+            }
+            cin.get();
+        }
+        else if (pilihan == 4) {
+            system("cls");
+            string nim;
+            cout << "Lihat Tabel Mahasiswa\n";
+            cout << "Masukkan NIM mahasiswa yang ingin dilihat: ";
+            getline(cin, nim);
+            Mahasiswa* mhs = cariMahasiswa(nim);
+            if (mhs) {
+                cout << "Tabel Presensi Mahasiswa: " << mhs->nama << " (" << mhs->nim << ")\n";
+                tampilkanTabelPresensi(mhs);
+            }
+            else {
+                cout << "Mahasiswa tidak ditemukan.\n";
+            }
+            cout << "Tekan ENTER untuk kembali...";
+            cin.get();
+        }
+        else if (pilihan == 5) {
+            system("cls");
+            cout << "Atur Jadwal Jam Masuk/Keluar\n";
+            cout << "Jam Masuk (1-24): "; cin >> jadwal.jamMasuk;
+            cout << "Jam Keluar (1-24): "; cin >> jadwal.jamKeluar;
+            cout << "Jadwal diupdate.\n";
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cin.get();
+        }
+        else if (pilihan == 6) {
+            system("cls");
+            string nim;
+            cout << "Cetak Data Presensi Mahasiswa\n";
+            cout << "Masukkan NIM mahasiswa yang ingin dicetak: ";
+            getline(cin, nim);
+            Mahasiswa* mhs = cariMahasiswa(nim);
+            if (mhs) {
+                cetakTabelPresensiKeFile(mhs);
+            }
+            else {
+                cout << "Mahasiswa tidak ditemukan.\n";
+            }
+            cout << "Tekan ENTER untuk kembali...";
+            cin.get();
+        }
+    } while (pilihan != 0);
 }
 
-void project::exportDataMahasiswa(const vector<Mahasiswa>& mahasiswa)
+void Project::presensiMenu()
 {
-	ofstream file("data_mahasiswa.txt");
-	if (!file) {
-		cerr << "Error membuka file untuk penulisan." << endl;
-		system("pause");
-	}
-	for (const auto& mhs : mahasiswa) {
-		file << mhs.nim << "\t" << mhs.nama << "\t" << mhs.prodi << "\t" << fixed << setprecision(2) << mhs.tabungan << "\n";
-	}
-	file.close();
+    string nim;
+    cout << "Masukkan NIM: ";
+    cin.ignore();
+    getline(cin, nim);
+    Mahasiswa* mhs = cariMahasiswa(nim);
+    if (!mhs) {
+        cout << "Mahasiswa tidak ditemukan.\n";
+        return;
+    }
+    while (true) {
+        system("cls");
+        cout << "Nama: " << mhs->nama << endl;
+        cout << "NIM: " << mhs->nim << endl;
+        cout << "Total Jam Plus/Minus: " << mhs->jamPlusMinus << endl;
+        cout << "\n1. Presensi\n2. Lihat Tabel Presensi\n0. Kembali\nPilih: ";
+        int pilihan;
+        cin >> pilihan;
+        if (pilihan == 0) break;
+        if (pilihan == 1) {
+            int hari;
+            cout << "\nPilih Hari:\n";
+            for (int i = 0; i < 7; ++i) {
+                cout << (i + 1) << ". " << namaHari[i] << endl;
+            }
+            cout << "Pilih hari (1-7): ";
+            cin >> hari;
+            if (hari < 1 || hari > 7) {
+                cout << "Hari tidak valid.\n";
+                cin.get(); cin.get();
+                continue;
+            }
+            int idxHari = hari - 1;
+            PresensiHari& presensi = mhs->presensi[idxHari];
+            if (presensi.jamMasuk == -1) {
+                cout << "Jadwal Masuk: " << jadwal.jamMasuk << endl;
+                cout << "Jadwal Keluar: " << jadwal.jamKeluar << endl;
+                cout << "Masukkan jam presensi masuk (1-24): ";
+                int jamMasuk;
+                cin >> jamMasuk;
+                presensi.jamMasuk = jamMasuk;
+                if (jamMasuk < jadwal.jamMasuk) {
+                    mhs->jamPlusMinus += jadwal.jamMasuk - jamMasuk;
+                    cout << "Anda mendapat jam plus: +" << jadwal.jamMasuk - jamMasuk << endl;
+                }
+                else if (jamMasuk > jadwal.jamMasuk) {
+                    mhs->jamPlusMinus -= jamMasuk - jadwal.jamMasuk;
+                    cout << "Anda mendapat jam minus: -" << jamMasuk - jadwal.jamMasuk << endl;
+                }
+                else {
+                    cout << "Tepat waktu, tidak ada plus/minus.\n";
+                }
+                cout << "Presensi masuk hari " << namaHari[idxHari] << " dicatat.\n";
+            }
+            else if (presensi.jamKeluar == -1) {
+                cout << "Jadwal Masuk: " << jadwal.jamMasuk << endl;
+                cout << "Jadwal Keluar: " << jadwal.jamKeluar << endl;
+                cout << "Masukkan jam presensi keluar (1-24): ";
+                int jamKeluar;
+                cin >> jamKeluar;
+                presensi.jamKeluar = jamKeluar;
+                if (jamKeluar < jadwal.jamKeluar) {
+                    mhs->jamPlusMinus -= jadwal.jamKeluar - jamKeluar;
+                    cout << "Anda mendapat jam minus: -" << jadwal.jamKeluar - jamKeluar << endl;
+                }
+                else if (jamKeluar > jadwal.jamKeluar) {
+                    mhs->jamPlusMinus += jamKeluar - jadwal.jamKeluar;
+                    cout << "Anda mendapat jam plus: +" << jamKeluar - jadwal.jamKeluar << endl;
+                }
+                else {
+                    cout << "Tepat waktu, tidak ada plus/minus.\n";
+                }
+                cout << "Presensi keluar hari " << namaHari[idxHari] << " dicatat.\n";
+            }
+            else {
+                cout << "Presensi hari " << namaHari[idxHari] << " sudah lengkap.\n";
+            }
+            cout << "Tekan ENTER untuk melanjutkan...";
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cin.get();
+        }
+        else if (pilihan == 2) {
+            system("cls");
+            cout << "Tabel Presensi Mahasiswa: " << mhs->nama << " (" << mhs->nim << ")\n";
+            tampilkanTabelPresensi(mhs);
+            cout << "Tekan ENTER untuk kembali...";
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cin.get();
+        }
+    }
 }
 
-void project::removeMahasiswa(vector<Mahasiswa>& mahasiswa, const string& nim)
+void Project::landspace()
 {
-	auto it = remove_if(mahasiswa.begin(), mahasiswa.end(), [&nim](const Mahasiswa& mhs) {
-		return mhs.nim == nim;
-		});
-	if (it != mahasiswa.end()) {
-		mahasiswa.erase(it, mahasiswa.end());
-	}
-	else {
-		cout << "Mahasiswa dengan NIM " << nim << " tidak ditemukan." << endl;
-		system("pause");
-	}
+    int pilihan;
+    do {
+        system("cls");
+        cout << "==================================================\n";
+        cout << "                   TUGAS 8 MBAK!!\n";
+        cout << "==================================================\n";
+        cout << "1. Login Admin\n";
+        cout << "2. Presensi Mahasiswa\n";
+        cout << "0. Keluar\n";
+        cout << "Pilih: ";
+        cin >> pilihan;
+
+        if (pilihan == 1) {
+            string pass;
+            cout << "Masukkan password admin: ";
+            cin >> pass;
+            if (pass == "123") {
+                adminMenu();
+            }
+            else {
+                cout << "Password salah.\n";
+            }
+        }
+        else if (pilihan == 2) {
+            presensiMenu();
+        }
+    } while (pilihan != 0);
+
+    cout << "Program selesai.\n";
+    return;
 }
 
-void project::landspace(vector<Mahasiswa> mahasiswa)
-{
-awal:
-	system("cls");
 
-	sortMahasiswa(mahasiswa);
-
-	char opsi;
-	cin >> opsi;
-	if (opsi == 'A' || opsi == 'a') {
-		addMahasiswa(mahasiswa);
-		goto awal;
-	}
-	if (opsi == 'B' || opsi == 'b') {
-		ubahDataMahasiswa(mahasiswa);
-		goto awal;
-	}
-	if (opsi == 'C' || opsi == 'c') {
-		string nim;
-		cout << "Masukkan NIM mahasiswa yang ingin ditambah tabungan: ";
-		cin >> nim;
-		auto it = find_if(mahasiswa.begin(), mahasiswa.end(), [&nim](Mahasiswa& mhs) {
-			return mhs.nim == nim;
-			});
-		if (it != mahasiswa.end()) {
-			tambahTabunganMahasiswa(*it);
-		}
-		else {
-			cout << "Mahasiswa dengan NIM " << nim << " tidak ditemukan." << endl;
-			system("pause");
-		}
-		goto awal;
-	}
-	if (opsi == 'D' || opsi == 'd') {
-		exportDataMahasiswa(mahasiswa);
-		goto awal;
-	}
-	if (opsi == 'E' || opsi == 'e') {
-		string nim;
-		cout << "Masukkan NIM mahasiswa yang ingin dihapus: ";
-		cin >> nim;
-		removeMahasiswa(mahasiswa, nim);
-		goto awal;
-	}
-	if (opsi == 'F' || opsi == 'f') {
-		cout << "Terima kasih telah menggunakan program ini." << endl;
-		system("pause");
-	}
-	else {
-		goto awal;
-	}
-}
