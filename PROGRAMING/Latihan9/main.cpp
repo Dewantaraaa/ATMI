@@ -1,9 +1,7 @@
-#include "project.h"
 #include <iostream>
+#include "project.h"
 
-int main()
-{
-    project obj;
-    std::vector<Mahasiswa> mahasiswa; 
-    obj.landspace(mahasiswa);
+int main() {
+    Project app;
+    app.landspace();
 }
