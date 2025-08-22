@@ -1,7 +1,11 @@
-#include <iostream>
 #include "project.h"
+#include <iostream>
 
-int main() {
-    Project app;
-    app.landspace();
+using namespace std;
+
+int main()
+{
+    project obj;
+    vector<Mahasiswa> mahasiswa; 
+    obj.landspace(mahasiswa);
 }
