@@ -1,49 +1,32 @@
+#pragma once
 #include <iostream>
-#include <iomanip>
 #include <vector>
 #include <string>
-#include <limits>
+#include <algorithm>
+#include <iomanip> 
 #include <fstream>
 
 using namespace std;
 
-struct PresensiHari {
-    int jamMasuk = -1;
-    int jamKeluar = -1;
-};
-
 struct Mahasiswa {
-    string nama;
-    string nim;
-    int jamPlusMinus = 0;
-    PresensiHari presensi[7]; 
+	string nama;
+	string nim;
+	string prodi;
+	double tabungan;
+	string bulan[6] = { "Januari", "Februari", "Maret", "April", "Mei", "Juni" };
+	Mahasiswa(const string& n, const string& i, const string& p) : nama(n), nim(i), prodi(p), tabungan(0.0) {
+	}
 };
 
-struct Jadwal {
-    int jamMasuk = 7;
-    int jamKeluar = 12;
-};
-
-vector<Mahasiswa> daftarMahasiswa;
-Jadwal jadwal;
-
-Mahasiswa* cariMahasiswa(const string& nim) {
-    for (auto& mhs : daftarMahasiswa) {
-        if (mhs.nim == nim) return &mhs;
-    }
-    return nullptr;
-}
-
-const char* namaHari[7] = {
-    "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"
-};
-
-class Project {
+class project
+{
 public:
-    void tampilkanDaftarMahasiswa();
-    void tampilkanTabelPresensi(const Mahasiswa* mhs);
-    void cetakTabelPresensiKeFile(const Mahasiswa* mhs);
-    void adminMenu();
-    void presensiMenu();
-	void landspace();
+	void sortMahasiswa(vector<Mahasiswa>& mahasiswa);
+	void addMahasiswa(vector<Mahasiswa>& mahasiswa);
+	void tambahTabunganMahasiswa(Mahasiswa& mhs);
+	void ubahDataMahasiswa(vector<Mahasiswa>& mahasiswa);
+	void exportDataMahasiswa(const vector<Mahasiswa>& mahasiswa);
+	void removeMahasiswa(vector<Mahasiswa>& mahasiswa, const string& nim);
+	void landspace(vector<Mahasiswa> mahasiswa);
 };
+
