@@ -1,0 +1,5 @@
+1-2 LED
+3-5 BUTTON
+6-7 BUZZER
+8-10 7segment
+11-12 Keypad
