@@ -1,6 +1,6 @@
 # PROJECT MICROCONTROLLER
 
-This project involves the integration and usage of various electronic components, including LEDs, buttons, buzzers, 7-segment displays, and a keypad. Below is a breakdown of the components used in this project.
+Urutan project yang dikerjakan dapat di lihat di bawah ini!
 
 ## Checklist
 
