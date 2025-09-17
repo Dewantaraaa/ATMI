@@ -9,3 +9,7 @@ Urutan project yang dikerjakan dapat di lihat di bawah ini!
 ### 6-7   Buzzer
 ### 8-10  7-Segment Display
 ### 11-12 Keypad 
+
+##
+
+![Alt text](https://i.imgur.com/1d6F5L0.png)
