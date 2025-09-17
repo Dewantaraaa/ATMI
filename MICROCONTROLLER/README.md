@@ -1,4 +1,4 @@
-1-2 LED
+1-2 LED \n
 3-5 BUTTON
 6-7 BUZZER
 8-10 7segment
