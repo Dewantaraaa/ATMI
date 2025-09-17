@@ -1,4 +1,4 @@
-<img width="420" height="304" alt="image" src="https://github.com/user-attachments/assets/dc2f1547-f153-4478-92df-add21e4d1c5d" /># PROJECT MICROCONTROLLER
+# PROJECT MICROCONTROLLER
 
 Urutan project yang dikerjakan dapat di lihat di bawah ini!
 
