@@ -34,7 +34,7 @@ void loop() {
     Serial.println(key);
 
     if (key >= '0' && key <= '9') {
-      int value = key - '0'; // convert char to int
+      int value = key - '0'; 
       display.showNumberDec(value, false, 4, 0);
     } else {
       const uint8_t segment;

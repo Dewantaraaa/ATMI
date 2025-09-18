@@ -1,7 +1,8 @@
-int ledPin1 = 2; 
-int ledPin2 = 3; 
-int ledPin3 = 4; 
-int inPin = 5;  
+#define ledPin1 2
+#define ledPin2 3
+#define ledPin3 4
+#define inPin 5
+
 int val = 0;      
 
 void setup() {

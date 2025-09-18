@@ -18,7 +18,7 @@ void loop() {
   for (i = 0; i < 60; i++)
   {
     display.showNumberDecEx(b, 0b11100000, true, 2, 0); // displayed _28_
-    display.showNumberDecEx(i, 0b11100000, true, 2, 2); // displayed _28_
+    display.showNumberDec(i, true, 2, 2); // displayed _28_
     delay(100);
     if (i == 59)
     {

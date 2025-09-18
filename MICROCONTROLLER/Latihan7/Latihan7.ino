@@ -118,7 +118,6 @@ int marioDurations[] = {
   12,6,6,12
 };
 
-// Melodi Game Over (Super Mario Bros) versi sederhana
 int gameOverMelody[] = {
   NOTE_C5, NOTE_G4, NOTE_E4, NOTE_A4,
   NOTE_B4, NOTE_AS4, NOTE_A4, NOTE_GS4,
@@ -132,7 +131,6 @@ int gameOverDurations[] = {
 };
 
 void setup() {
-  // main theme Mario
   for (int thisNote = 0; thisNote < (sizeof(marioMelody)/sizeof(int)); thisNote++) {
     int noteDuration = 1000 / marioDurations[thisNote];
     tone(8, marioMelody[thisNote], noteDuration);
@@ -141,9 +139,8 @@ void setup() {
     noTone(8);
   }
   
-  delay(1000);  // jeda sebelum Game Over
+  delay(1000); 
   
-  // Game Over theme
   for (int thisNote = 0; thisNote < (sizeof(gameOverMelody)/sizeof(int)); thisNote++) {
     int noteDuration = 1000 / gameOverDurations[thisNote];
     tone(8, gameOverMelody[thisNote], noteDuration);
