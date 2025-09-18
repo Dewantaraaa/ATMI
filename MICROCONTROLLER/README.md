@@ -2,20 +2,26 @@
 
 Urutan project yang dikerjakan dapat di lihat di bawah ini!
 
-## Checklist
-
+## DIGITAL
 ### 1-2   LED 
 ### 3-5   Button 
 ### 6-7   Buzzer
 ### 8-10  7-Segment Display
 ### 11-12 Keypad 
+
+## ANALOG
 ### 13-14 Potensio 
 ### 15    Data Mapping
 ### 16    PWM Output
+
+## LCD
 ### 17    LCD Text & Number 
 ### 18    LCD Button
 ### 19    LCD Potensiometer
 ### 20    LCD Keypad
+
+## SENSOR
+### 21 Sensor DHT
 
 ##
 
