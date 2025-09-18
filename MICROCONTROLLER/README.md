@@ -9,6 +9,13 @@ Urutan project yang dikerjakan dapat di lihat di bawah ini!
 ### 6-7   Buzzer
 ### 8-10  7-Segment Display
 ### 11-12 Keypad 
+### 13-14 Potensio 
+### 15    Data Mapping
+### 16    PWM Output
+### 17    LCD Text & Number 
+### 18    LCD Button
+### 19    LCD Potensiometer
+### 20    LCD Keypad
 
 ##
 
