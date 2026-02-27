@@ -7,7 +7,7 @@
 
 ## 📥 Download Aplikasi
 
-[![Download APK](https://img.shields.io/badge/Download-Simurelay_Premium_APK-blue?style=for-the-badge&logo=android)](https://cdn.discordapp.com/attachments/1459839130027557051/1477083153825792103/Simurelay_Premium.apk?ex=69a37862&is=69a226e2&hm=05fed4110fe50ad0069be3970bc23cb65d299f087aceaa20bdcd6959a93fc814&)
+[![Download APK](https://img.shields.io/badge/Download-Simurelay_Dewantara_APK-blue?style=for-the-badge&logo=android)](https://cdn.discordapp.com/attachments/1459839130027557051/1477085114939867178/Simurelay_Dewantara.apk?ex=69a37a36&is=69a228b6&hm=99c5669e6d02ca03696a24ac93409bfd647ac583d74b4c1389733d5dcaa6c29a&)
 
 ---
 
